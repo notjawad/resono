@@ -65,6 +65,20 @@ class Dev(commands.Cog):
         view = LogsPaginator(pages)
         await ctx.send(content=f"```py\n{pages[0]}```", view=view)
 
+    @slash_command(name="reload", description="Reloads a cog", hidden=True)
+    @commands.is_owner()
+    async def _reload(
+        self,
+        ctx: discord.ApplicationContext,
+        cog: discord.Option(str, description="The cog to reload"),
+    ):
+        try:
+            self.bot.reload_extension(f"cogs.{cog}")
+        except Exception as e:
+            return await ctx.respond(f"Failed to reload cog: {e}", ephemeral=True)
+
+        await ctx.respond(f"Reloaded cog: {cog}")
+
 
 def setup(bot: discord.Bot):
     bot.add_cog(Dev(bot))
