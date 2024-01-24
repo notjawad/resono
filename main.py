@@ -28,11 +28,12 @@ class Resono(commands.AutoShardedBot):
 
         for filename in os.listdir("./cogs"):
             if filename.endswith(".py"):
-                try:
-                    self.load_extension(f"cogs.{filename[:-3]}")
-                    self.log.info(f"Loaded {filename}")
-                except Exception as e:
-                    self.log.error(f"Failed to load {filename}: {e}")
+                # try:
+                self.load_extension(f"cogs.{filename[:-3]}")
+                self.log.info(f"Loaded {filename}")
+            # except Exception as e:
+
+            #     self.log.error(f"Failed to load {filename}: {e}")
 
     async def on_ready(self):
         self.log.info(f"Logged in as {self.user} ({self.user.id})")
