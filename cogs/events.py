@@ -11,18 +11,21 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild: discord.Guild):
-        await self.db.guilds.insert_one(
-            {
-                "guild_id": guild.id,
-                "premium": False,
-                "summary_channel": None,
-                "send_to_all": False,
-                "previous_summaries": [],
-                "mod_roles": [],
-            }
-        )
+        try:
+            await self.db.guilds.insert_one(
+                {
+                    "guild_id": guild.id,
+                    "premium": False,
+                    "send_to_all": False,
+                    "previous_summaries": [],
+                }
+            )
 
-        self.log.info(f"Added {guild.name} ({guild.id}) to the database")
+            self.log.info(f"Added {guild.name} ({guild.id}) to the database")
+
+        except Exception as error:
+            self.log.error(error)
+            return
 
 
 def setup(bot: discord.Bot):
